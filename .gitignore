@@ -1,0 +1,11 @@
+*.iml
+*/.settings
+*/.project
+*/.classpath
+.idea/
+/.settings
+/.project
+/node_modules
+.DS_Store
+version.txt
+*.swp
