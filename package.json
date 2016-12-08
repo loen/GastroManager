@@ -1,0 +1,14 @@
+{
+  "name": "testbot2",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node"
+  },
+  "dependencies": {
+    "slack-terminalize ": "^1.0.2",
+    "request": "~2.72.0",
+    "underscore": "^1.8.3",
+    "node-cron": "^1.1.2"
+  }
+}
