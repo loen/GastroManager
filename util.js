@@ -1,4 +1,8 @@
 var webClient = require('slack-terminalize').getWebClient();
+var request = require('request');
+var config = require ('./bin/config');
+
+config.readConfig();
 /**
  * Wrapper function for postMessage from slack-client to handle formatting.
  *
@@ -20,4 +24,15 @@ var postMessage = function (channel, message, format) {
 
 };
 
+var getUser = function(userId){
+    var url = 'https://slack.com/api/users.info?token=' + config.getSetting('token') + '&user=' + userId;
+    request(url, function (err, response, body) {
+        if (!err && response.statusCode === 200) {
+            var user = JSON.parse(body);
+            return user;
+        }
+    });
+}
+
 exports.postMessage = postMessage;
+exports.getUser = getUser;

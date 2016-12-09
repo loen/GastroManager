@@ -12,6 +12,12 @@
     "description": "get all git repo names of user"
   },
 
+  "places":{
+    "alias": [],
+    "help": "places",
+    "description": "List all paces when you may order food"
+  },
+
   "error": {
     "exclude": true
   }

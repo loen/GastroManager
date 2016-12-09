@@ -1,7 +1,14 @@
 {
   "token": "TBD",
   "places": [
-    "etnika", "emes"
+    {
+      "name": "etnika",
+      "minOrders": 2
+    },
+    {
+      "name": "emes",
+      "minOrders": 1
+    }
   ],
   "people": [
     "a.pozlutko", "b.tworzewska"
