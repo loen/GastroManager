@@ -18,6 +18,11 @@
     "description": "List all paces when you may order food"
   },
 
+  "order":{
+    "alias": [],
+    "help": "order [remove|place] [restaurant] [dish]",
+    "description": "to order use place command with dish name, to cancel order use remove option"
+  },
   "error": {
     "exclude": true
   }

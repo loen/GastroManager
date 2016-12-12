@@ -1,5 +1,5 @@
 var webClient = require('slack-terminalize').getWebClient();
-var request = require('request');
+var rp = require('request-promise');
 var config = require ('./bin/config');
 
 config.readConfig();
@@ -25,14 +25,14 @@ var postMessage = function (channel, message, format) {
 };
 
 var getUser = function(userId){
-    var url = 'https://slack.com/api/users.info?token=' + config.getSetting('token') + '&user=' + userId;
-    request(url, function (err, response, body) {
-        if (!err && response.statusCode === 200) {
-            var user = JSON.parse(body);
-            return user;
-        }
+    var options = {
+        uri:  'https://slack.com/api/users.info?token=' + config.getSetting('token') + '&user=' + userId,
+        json: true
+    };
+    return rp(options).then(function (resp) {
+        return resp.user.name;
     });
-}
+};
 
 exports.postMessage = postMessage;
 exports.getUser = getUser;
