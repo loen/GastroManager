@@ -5,19 +5,11 @@
     "help": "help [command](optional)",
     "description": "To get help on all supported commands, or a specified command"
   },
-  "repos": {
-    "alias": [],
-    "endpoint": "https://api.github.com/users/{username}/repos",
-    "help": "repos [username]",
-    "description": "get all git repo names of user"
-  },
-
   "places":{
     "alias": [],
     "help": "places",
     "description": "List all paces when you may order food"
   },
-
   "order":{
     "alias": [],
     "help": "order [remove|place] [restaurant] [dish]",

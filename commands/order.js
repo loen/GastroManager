@@ -1,19 +1,14 @@
 var util = require('../util');
 var _ = require('underscore');
 var config = require ('../bin/config');
+var ordersDao = require ('../bin/ordersDao');
 var dateUtil = require ('../bin/dateUtil');
 var moment = require('moment');
 
 config.readConfig();
-var places = config.getSetting('places');
 var timeWindowStart = config.getSetting('timeWindowStart');
 var timeWindowEnd = config.getSetting('timeWindowEnd');
 var drawTimeWindow = config.getSetting('drawTime');
-var orders = {};
-var dishes = {};
-_.each(places, function(place){
-    orders[place.name] = [];
-})
 
 module.exports = function order(param){
     var now = moment();
@@ -25,14 +20,9 @@ module.exports = function order(param){
         if(dateUtil.isInTimeWindow(now,startTime,drawTime)) {
             var restaurant = param.args[1];
             util.getUser(param.user).then(function (user) {
-                var index = orders[restaurant].indexOf(user);
-                if (index > -1) {
-                    orders[restaurant].splice(index, 1);
-                    delete dishes[restaurant + "-" + user];
-                    console.log(JSON.stringify(orders));
-                    console.log(JSON.stringify(dishes));
+                if(ordersDao.removeOrderFromRestaurant(restaurant,user)) {
+                    util.postMessage(param.channel, 'Your order has been removed');
                 }
-                util.postMessage(param.channel, 'Your order has been removed');
             });
         }else {
             util.postMessage(param.channel,
@@ -45,15 +35,10 @@ module.exports = function order(param){
         var dish = param.args[2];
         util.getUser(param.user).then(function(user){
             var resp = '';
-            var index = orders[restaurant].indexOf(user);
-            if(index < 0){
-                orders[restaurant].push(user);
-                dishes[restaurant + "-" + user] = dish;
-                resp = 'Your order is placed';
-                console.log(JSON.stringify(orders));
-                console.log(JSON.stringify(dishes));
+            if(ordersDao.addOrderToRestaurant(restaurant, user, dish)){
+            resp = 'Your order is placed';
             } else{
-                resp = user + ' already have following order: ' + dishes[restaurant + "-" + user];
+                resp = user + ' already have following order: ' + ordersDao.getOrderFromRestaurant(restaurant, user);
             }
             util.postMessage(param.channel, resp);
         });
