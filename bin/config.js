@@ -1,15 +1,20 @@
-var fs = require('fs');
-
-var config;
-
-function readConfig(){
-    config = JSON.parse(fs.readFileSync(__dirname + '/../config/config.json', 'utf8'));
-    return config;
+const config = {
+    token: 'TBD',
+    places: [
+        {
+            name: 'etnika',
+            minOrders: 2
+        },
+        {
+            name: 'emes',
+            minOrders: 1
+        }
+    ],
+    people: ['a.pozlutko', 'b.tworzewska'],
+    emailDomain: 'ocado.com',
+    timeWindowStart: '8:00',
+    timeWindowEnd: '10:00',
+    drawTime: '10:15'
 }
 
-function getSetting(name){
-    return config[name];
-}
-
-exports.readConfig = readConfig;
-exports.getSetting = getSetting;
+exports.settings=config;

@@ -5,10 +5,9 @@ var ordersDao = require ('../bin/ordersDao');
 var dateUtil = require ('../bin/dateUtil');
 var moment = require('moment');
 
-config.readConfig();
-var timeWindowStart = config.getSetting('timeWindowStart');
-var timeWindowEnd = config.getSetting('timeWindowEnd');
-var drawTimeWindow = config.getSetting('drawTime');
+var timeWindowStart = config.settings.timeWindowStart;
+var timeWindowEnd = config.settings.timeWindowEnd;
+var drawTimeWindow = config.settings.drawTime;
 
 module.exports = function order(param){
     var now = moment();

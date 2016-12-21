@@ -1,14 +1,11 @@
-
 var util = require('../util');
 var _ = require('underscore');
 var config = require ('../bin/config');
 
-config.readConfig();
-
 module.exports = function (param) {
     var	channel	= param.channel;
     var resp = [];
-    var places = config.getSetting('places');
+    var places = config.settings.places;
     console.log(places);
     var index = 0;
     _.each(places, function (place) {

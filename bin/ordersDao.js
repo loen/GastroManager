@@ -1,8 +1,7 @@
 var _ = require('underscore');
 var config = require ('../bin/config');
 
-config.readConfig();
-var places = config.getSetting('places');
+var places = config.settings.places;
 var orders = {};
 var dishes = {};
 _.each(places, function(place){
