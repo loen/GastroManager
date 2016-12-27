@@ -1,3 +1,4 @@
+var restUtil = require('../restUtil');
 var util = require('../util');
 var _ = require('underscore');
 var config = require ('../bin/config');
@@ -18,7 +19,7 @@ module.exports = function order(param){
     if(param.args.length === 2 & param.args[0]==='remove'){
         if(dateUtil.isInTimeWindow(now,startTime,drawTime)) {
             var restaurant = param.args[1];
-            util.getUser(param.user).then(function (user) {
+            restUtil.getUser(param.user).then(function (user) {
                 if(ordersDao.removeOrderFromRestaurant(restaurant,user)) {
                     util.postMessage(param.channel, 'Your order has been removed');
                 }
@@ -32,7 +33,7 @@ module.exports = function order(param){
         if(dateUtil.isInTimeWindow(now,startTime,endTime)){
         var restaurant = param.args[1];
         var dish = param.args[2];
-        util.getUser(param.user).then(function(user){
+            restUtil.getUser(param.user).then(function(user){
             var resp = '';
             if(ordersDao.addOrderToRestaurant(restaurant, user, dish)){
             resp = 'Your order is placed';

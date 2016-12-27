@@ -36,6 +36,11 @@ function getOrderFromRestaurant(restaurant, user){
     return dishes[restaurant + "-" + user];
 }
 
+function getCustomersFromRestaurant(restaurant){
+    return orders[restaurant];
+}
+
 exports.removeOrderFromRestaurant=removeOrderFromRestaurant;
 exports.addOrderToRestaurant=addOrderToRestaurant;
 exports.getOrderFromRestaurant=getOrderFromRestaurant;
+exports.getCustomersFromRestaurant=getCustomersFromRestaurant;
