@@ -1,5 +1,5 @@
 const config = {
-    token: 'xoxb-113563263425-bimrBh6vnP1nmEGnTxbz9Za3',
+    token: 'TBD',
     places: [
         {
             name: 'etnika',
