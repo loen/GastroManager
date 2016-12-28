@@ -11,6 +11,7 @@
     "request": "~2.72.0",
     "request-promise": "^4.0.1",
     "slack-terminalize ": "^1.0.2",
+    "strict-uri-encode": "^2.0.0",
     "underscore": "^1.8.3"
   }
 }

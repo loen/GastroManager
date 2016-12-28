@@ -1,6 +1,6 @@
 var rp = require('request-promise');
 var config = require ('./bin/config');
-
+const strictUriEncode = require('strict-uri-encode');
 
 function getUser(userId){
     var options = {
@@ -13,7 +13,8 @@ function getUser(userId){
 };
 
 function postMessage(channel, message, asUser){
-
+    message = '```' + message + '```';
+    message = strictUriEncode(message);
     var options = {
         uri:  'https://slack.com/api/chat.postMessage?token=' + config.settings.token + '&channel=' + channel +
               '&text=' + message + '&as_user=' + asUser + '&parse=true',
