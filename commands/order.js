@@ -38,7 +38,7 @@ function orderProcessing(user, param){
             }
         }else {
             util.postMessage(param.channel,
-                'Scusi zamówienia mogą być [' + timeWindowStart + '-' + drawTimeWindow + ']');
+                'Scusi zamówienia mogą być usuwane tylko między [' + timeWindowStart + '-' + drawTimeWindow + ']');
         }
 
     }else if(param.args.length >= 3 & param.args[0]=== 'place'){
@@ -58,7 +58,7 @@ function orderProcessing(user, param){
         }
 
     } else {
-        util.postMessage(param.channel, 'Wrong format, try ' + param.commandConfig.help);
+        util.postMessage(param.channel, 'Scusi zły format spróbuj ' + param.commandConfig.help);
     }
 }
 
