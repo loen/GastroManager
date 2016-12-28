@@ -19,7 +19,7 @@ function drawAllRestaurants(successCallback, failureCallback){
 }
 
 function draw(orders){
-    var index = _.random(orders.length -1 );
+    var index = _.random(orders.length -1);
     return orders[index]
 }
 

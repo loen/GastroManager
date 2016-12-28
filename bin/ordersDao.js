@@ -40,7 +40,16 @@ function getCustomersFromRestaurant(restaurant){
     return orders[restaurant];
 }
 
+function resetOrders(){
+    orders = {};
+    dishes = {};
+    _.each(places, function(place){
+        orders[place.name] = [];
+    });
+}
+
 exports.removeOrderFromRestaurant=removeOrderFromRestaurant;
 exports.addOrderToRestaurant=addOrderToRestaurant;
 exports.getOrderFromRestaurant=getOrderFromRestaurant;
 exports.getCustomersFromRestaurant=getCustomersFromRestaurant;
+exports.resetOrders=resetOrders;
