@@ -1,5 +1,5 @@
 const config = {
-    token: 'xoxb-113563263425-VFyS7nOfRsbppXYjwPJqxYHi',
+    token: 'TBD',
     places: [
         {
             name: 'etnika',
@@ -15,8 +15,8 @@ const config = {
     people: ['andrzej', 'b.tworzewska'],
     channel: 'testowy',
     timeWindowStart: '14:00',
-    timeWindowEnd: '15:01',
-    drawTime: '15:02'
+    timeWindowEnd: '14:30',
+    drawTime: '14:31'
 }
 
 exports.settings=config;

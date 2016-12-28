@@ -9,42 +9,52 @@ var moment = require('moment');
 var timeWindowStart = config.settings.timeWindowStart;
 var timeWindowEnd = config.settings.timeWindowEnd;
 var drawTimeWindow = config.settings.drawTime;
+var people = config.settings.people;
 
 module.exports = function order(param){
+
+    restUtil.getUser(param.user).then(function(user){
+        if(_.contains(people, user)){
+            orderProcessing(user, param);
+        }else{
+            util.postMessage(param.channel,
+                'Scusi - nie jesteś zarejestrowanym użytkownikem, pogadaj z Andrzejem Pozłutko.');
+        }
+    });
+
+}
+
+function orderProcessing(user, param){
     var now = moment();
     var startTime= dateUtil.formatToDate(now, timeWindowStart);
     var endTime = dateUtil.formatToDate(now, timeWindowEnd);
     var drawTime = dateUtil.formatToDate(now, drawTimeWindow);
-    
+
     if(param.args.length === 2 & param.args[0]==='remove'){
         if(dateUtil.isInTimeWindow(now,startTime,drawTime)) {
             var restaurant = param.args[1];
-            restUtil.getUser(param.user).then(function (user) {
-                if(ordersDao.removeOrderFromRestaurant(restaurant,user)) {
-                    util.postMessage(param.channel, 'Your order has been removed');
-                }
-            });
+            if(ordersDao.removeOrderFromRestaurant(restaurant,user)) {
+                util.postMessage(param.channel, 'Grazie, Twoje zamówenie zostało usuniętę, mamma mia.');
+            }
         }else {
             util.postMessage(param.channel,
-                'Sorry your order is not removed. You could do it only between [' + timeWindowStart + '-' + drawTimeWindow + ']');
+                'Scusi zamówienia mogą być [' + timeWindowStart + '-' + drawTimeWindow + ']');
         }
 
-    }else if(param.args.length === 3 & param.args[0]=== 'place'){
+    }else if(param.args.length >= 3 & param.args[0]=== 'place'){
         if(dateUtil.isInTimeWindow(now,startTime,endTime)){
-        var restaurant = param.args[1];
-        var dish = param.args[2];
-            restUtil.getUser(param.user).then(function(user){
+            var restaurant = param.args[1];
+            var dish = param.args.splice(2).join(' ');
             var resp = '';
             if(ordersDao.addOrderToRestaurant(restaurant, user, dish)){
-            resp = 'Your order is placed';
+                resp = 'che bello!! Twoje zamównienie zostało złożone.';
             } else{
-                resp = user + ' already have following order: ' + ordersDao.getOrderFromRestaurant(restaurant, user);
+                resp = user + ' tranquillo, masz już zamówienie: ' + ordersDao.getOrderFromRestaurant(restaurant, user);
             }
             util.postMessage(param.channel, resp);
-        });
         }else {
             util.postMessage(param.channel,
-                'Sorry your order maybe placed only between [' + timeWindowStart + '-' + timeWindowEnd + ']');
+                'Scusi - zamówienia można składać tylko pomiędzy: [' + timeWindowStart + '-' + timeWindowEnd + ']');
         }
 
     } else {

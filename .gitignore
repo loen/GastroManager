@@ -9,3 +9,4 @@
 .DS_Store
 version.txt
 *.swp
+./bin/config.js
