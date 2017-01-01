@@ -3,17 +3,17 @@
     "alias": [ "halp", "pomoc" ],
     "endpoint": "#",
     "help": "help [command](optional)",
-    "description": "To get help on all supported commands, or a specified command"
+    "description": "Ciao! wypisuje listê dostêpnych komend i ich sk³adnie."
   },
   "places":{
     "alias": [],
     "help": "places",
-    "description": "List all paces when you may order food"
+    "description": "Mamma mia! Wypisuje wszystkie miejsca w których mo¿na sk³adaæ zamówienia"
   },
   "order":{
     "alias": [],
     "help": "order [remove|place] [restaurant] [dish]",
-    "description": "to order use place command with dish name, to cancel order use remove option"
+    "description": "U¿yj z place z nazw¹ potrawy aby z³o¿yæ zamówienie, aby odwo³aæ zamówienie skorzystaj z opcji remove."
   },
   "error": {
     "exclude": true

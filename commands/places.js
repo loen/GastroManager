@@ -10,7 +10,7 @@ module.exports = function (param) {
     var index = 0;
     _.each(places, function (place) {
         index++;
-        resp.push(index + '. ' + place.name + '  minimum orders count ' + place.minOrders);
+        resp.push(index + '. ' + place.name + ' minimalna ilość zamówień ' + place.minOrders);
     })
 
     util.postMessage(channel, resp.join('\n'));
