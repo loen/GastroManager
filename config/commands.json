@@ -3,17 +3,17 @@
     "alias": [ "halp", "pomoc" ],
     "endpoint": "#",
     "help": "help [command](optional)",
-    "description": "Ciao! wypisuje listê dostêpnych komend i ich sk³adnie."
+    "description": "Ciao! wypisuje listÄ™ dostÄ™pnych komend i ich skÅ‚adnie."
   },
   "places":{
     "alias": [],
     "help": "places",
-    "description": "Mamma mia! Wypisuje wszystkie miejsca w których mo¿na sk³adaæ zamówienia"
+    "description": "Mamma mia! Wypisuje wszystkie miejsca w ktÃ³rych moÅ¼na skÅ‚adaÄ‡ zamÃ³wienia"
   },
   "order":{
     "alias": [],
     "help": "order [remove|place] [restaurant] [dish]",
-    "description": "U¿yj z place z nazw¹ potrawy aby z³o¿yæ zamówienie, aby odwo³aæ zamówienie skorzystaj z opcji remove."
+    "description": "UÅ¼yj z place z nazwÄ… potrawy aby zÅ‚oÅ¼yÄ‡ zamÃ³wienie, aby odwoÅ‚aÄ‡ zamÃ³wienie skorzystaj z opcji remove."
   },
   "error": {
     "exclude": true
