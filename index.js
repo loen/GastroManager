@@ -3,7 +3,7 @@ var cron = require('node-cron');
 var config = require ('./bin/config');
 var moment = require('moment');
 var dateUtil = require ('./bin/dateUtil');
-var orderDrawer = require ('./bin/orderDrawer');
+var drawer = require ('./bin/drawer');
 var recipeSender = require ('./bin/recipeSender');
 var ordersDao = require ('./bin/ordersDao');
 
@@ -26,7 +26,7 @@ cron.schedule(drawTimeCron, function(){
     var cronNow = moment();
     console.log('Draw who will place order');
     console.log(cronNow);
-    orderDrawer.drawAllRestaurants(recipeSender.sendRecipe, recipeSender.sendUnableToPrepareRecipe);
+    drawer.drawAllRestaurants(recipeSender.sendRecipe, recipeSender.sendUnableToPrepareRecipe);
 });
 
 slackTerminal.init(config.settings.token,
