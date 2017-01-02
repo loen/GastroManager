@@ -9,7 +9,7 @@ function prepareRecipe(winner, restaurant, contact){
     recipe = recipe + 'Lista zamównień:\n';
     recipe = recipe + '----------------\n';
     _.each(users, function(user){
-        recipe = recipe + user + ' ........... ' + ordersDao.getOrderFromRestaurant(restaurant, user);
+        recipe = recipe + user + ' ........... ' + ordersDao.getOrderFromRestaurant(restaurant, user) + '\n';
     });
     console.log(recipe);
     return recipe;
