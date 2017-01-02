@@ -10,3 +10,4 @@
 version.txt
 *.swp
 bin/config.js
+log.log
