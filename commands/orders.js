@@ -1,4 +1,5 @@
 var restUtil = require('../restUtil');
+var _ = require('underscore');
 var config = require ('../bin/config');
 var util = require('../util');
 var recipeCreator = require ('../bin/recipeCreator');
@@ -20,7 +21,7 @@ module.exports = function order(param){
 }
 
 function listCurrentOrders(param){
-    if(param.args.length === 1){
+    if(param.args.length === 0){
         listOrdersforAllRestaurants();
     }else {
         util.postMessage(param.channel, 'Scusi zły format spróbuj ' + param.commandConfig.help);
@@ -30,7 +31,7 @@ function listCurrentOrders(param){
 function listOrdersforAllRestaurants() {
 
     _.each(places, function(place) {
-        var msg = recipeCreator.prepareOrdersStatus(place);
+        var msg = recipeCreator.prepareOrdersStatus(place.name);
         restUtil.postMessage(config.settings.channel, msg, true);
     });
 

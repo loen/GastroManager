@@ -13,11 +13,12 @@ var now = moment();
 var drawTime = dateUtil.formatToDate(now, drawTimeWindow);
 var startTime = dateUtil.formatToDate(now, timeWindowStart);
 var drawTimeCron = '' + drawTime.minutes() + ' ' + drawTime.hours() + ' * * *';
+var eraseDataCron = '' + (drawTime.minutes() + 1) + ' ' + drawTime.hours() + ' * * *';
 var startTimeCron = '' + startTime.minutes() + ' ' + startTime.hours() + ' * * *';
 console.log(drawTimeCron);
 console.log(startTimeCron);
 
-cron.schedule(startTimeCron, function(){
+cron.schedule(eraseDataCron, function(){
     console.log('reset order data');
     ordersDao.resetOrders();
 });
