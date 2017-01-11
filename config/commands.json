@@ -15,6 +15,12 @@
     "help": "order [remove|place] [restaurant] [dish]",
     "description": "Użyj z place z nazwą potrawy aby złożyć zamówienie, aby odwołać zamówienie skorzystaj z opcji remove."
   },
+  "orders":{
+    "alias": [],
+    "help": "orders",
+    "description": "Użyj orders aby uzyskać obecny stan zamównień dla wszystkich restauracji."
+
+  },
   "error": {
     "exclude": true
   }

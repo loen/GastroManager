@@ -23,5 +23,18 @@ function unableToPrepareRecipe(restaurant, minOrdersCount){
 
 }
 
+function prepareOrdersStatus(restaurant){
+    var users = ordersDao.getCustomersFromRestaurant(restaurant);
+    var recipe = 'Ciao tutti !\n' +
+        'Obecny stan zamówień dla ' + restaurant + ':\n';
+    recipe = recipe + 'Lista zamównień:\n';
+    recipe = recipe + '----------------\n';
+    _.each(users, function(user){
+        recipe = recipe + user + ' ........... ' + ordersDao.getOrderFromRestaurant(restaurant, user) + '\n';
+    });
+    return recipe;
+}
+
 exports.prepareRecipe=prepareRecipe;
 exports.unableToPrepareRecipe=unableToPrepareRecipe;
+exports.prepareOrdersStatus = prepareOrdersStatus;
