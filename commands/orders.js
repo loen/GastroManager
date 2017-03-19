@@ -22,17 +22,18 @@ module.exports = function order(param){
 
 function listCurrentOrders(param){
     if(param.args.length === 0){
-        listOrdersforAllRestaurants();
+        var	channel	= param.channel;
+        listOrdersforAllRestaurants(channel);
     }else {
         util.postMessage(param.channel, 'Scusi zły format spróbuj ' + param.commandConfig.help);
     }
 }
 
-function listOrdersforAllRestaurants() {
+function listOrdersforAllRestaurants(channel) {
 
     _.each(places, function(place) {
         var msg = recipeCreator.prepareOrdersStatus(place.name);
-        restUtil.postMessage(config.settings.channel, msg, true);
+        restUtil.postMessage(channel, msg, true);
     });
 
 }
