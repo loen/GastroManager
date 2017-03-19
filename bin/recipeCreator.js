@@ -11,7 +11,6 @@ function prepareRecipe(winner, restaurant, contact, email){
        if(email){
            recipe = recipe + 'możesz też skorzystać z maila ' + email + ' \n';
        }
-       recipe = recipe + '\n';
 
     recipe = prepareOrdersText(users, restaurant, recipe);
     return recipe;
@@ -34,7 +33,7 @@ function prepareOrdersStatus(restaurant){
 }
 
 function prepareOrdersText(users, restaurant, recipe) {
-    var benefitRecipe = '\n Lista zamówień z kartą benefit: \n' +
+    var benefitRecipe = '\nLista zamówień z kartą benefit: \n' +
         '------------------------------\n';
     var noBenefitRecipe = '\n Lista zamówień BEZ karty benefit: \n' +
         '------------------------------\n';
@@ -48,7 +47,7 @@ function prepareOrdersText(users, restaurant, recipe) {
         }
 
     });
-    recipe = recipe + benefitRecipe + "\n" + noBenefitRecipe;
+    recipe = recipe + benefitRecipe + noBenefitRecipe;
     return recipe;
 }
 
