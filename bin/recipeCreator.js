@@ -11,7 +11,7 @@ function prepareRecipe(winner, restaurant, contact, email){
        if(email){
            recipe = recipe + 'możesz też skorzystać z maila ' + email + ' \n';
        }
-       recipe = recipe + '\n\n';
+       recipe = recipe + '\n';
 
     recipe = prepareOrdersText(users, restaurant, recipe);
     return recipe;
@@ -48,7 +48,7 @@ function prepareOrdersText(users, restaurant, recipe) {
         }
 
     });
-    recipe = recipe + benefitRecipe + "\n\n" + noBenefitRecipe;
+    recipe = recipe + benefitRecipe + "\n" + noBenefitRecipe;
     return recipe;
 }
 
