@@ -21,6 +21,11 @@
     "description": "Użyj orders aby uzyskać obecny stan zamównień dla wszystkich restauracji."
 
   },
+  "time":{
+    "alias": [],
+    "help": "time",
+    "description": "Użyj aby poznać przedział czasu w którym można składać zamówienia i godzinę losowania."
+  },
   "error": {
     "exclude": true
   }

@@ -3,6 +3,7 @@ var _ = require('underscore');
 var config = require ('../bin/config');
 var util = require('../util');
 var recipeCreator = require ('../bin/recipeCreator');
+var commonResp = require('../bin/commonResp');
 
 var people = config.settings.people;
 var places = config.settings.places;
@@ -13,8 +14,7 @@ module.exports = function order(param){
         if(_.contains(people, user)){
             listCurrentOrders(param);
         }else{
-            util.postMessage(param.channel,
-                'Scusi - nie jesteś zarejestrowanym użytkownikem, pogadaj z Andrzejem Pozłutko.');
+            commonResp.sendUserUnregistered(param.channel);
         }
     });
 

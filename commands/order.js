@@ -5,6 +5,7 @@ var config = require ('../bin/config');
 var ordersDao = require ('../bin/ordersDao');
 var dateUtil = require ('../bin/dateUtil');
 var moment = require('moment');
+var commonResp = require('../bin/commonResp');
 
 var timeWindowStart = config.settings.timeWindowStart;
 var timeWindowEnd = config.settings.timeWindowEnd;
@@ -17,8 +18,7 @@ module.exports = function order(param){
         if(_.contains(people, user)){
             orderProcessing(user, param);
         }else{
-            util.postMessage(param.channel,
-                'Scusi - nie jesteś zarejestrowanym użytkownikem, pogadaj z Andrzejem Pozłutko.');
+            commonResp.sendUserUnregistered(param.channel);
         }
     });
 
