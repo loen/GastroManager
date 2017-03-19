@@ -12,7 +12,7 @@
   },
   "order":{
     "alias": [],
-    "help": "order [remove|place] [restaurant] [dish]",
+    "help": "order [place [restaurant] [dish] | remove]",
     "description": "Użyj z place z nazwą potrawy aby złożyć zamówienie, aby odwołać zamówienie skorzystaj z opcji remove."
   },
   "orders":{
