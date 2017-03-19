@@ -2,8 +2,8 @@ var recipeCreator = require ('./recipeCreator');
 var restUtil = require('../restUtil');
 var config = require ('./config');
 
-function sendRecipe(winner, restaurant, contact){
-    var msg = recipeCreator.prepareRecipe(winner, restaurant, contact);
+function sendRecipe(winner, restaurant, contact, email){
+    var msg = recipeCreator.prepareRecipe(winner, restaurant, contact, email);
     restUtil.postMessage('@' + winner, msg, false);
     restUtil.postMessage(config.settings.channel, msg, true);
 }

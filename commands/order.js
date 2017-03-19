@@ -6,11 +6,12 @@ var ordersDao = require ('../bin/ordersDao');
 var dateUtil = require ('../bin/dateUtil');
 var moment = require('moment');
 var commonResp = require('../bin/commonResp');
+var configHelper = require('../bin/configHelper');
 
 var timeWindowStart = config.settings.timeWindowStart;
 var timeWindowEnd = config.settings.timeWindowEnd;
 var drawTimeWindow = config.settings.drawTime;
-var people = config.settings.people;
+var people = configHelper.getPeople();
 
 module.exports = function order(param){
 

@@ -1,17 +1,19 @@
 var ordersDao = require ('./ordersDao');
 var _ = require('underscore');
+var configHelper = require('./configHelper');
 
-function prepareRecipe(winner, restaurant, contact){
+function prepareRecipe(winner, restaurant, contact, email){
     var users = ordersDao.getCustomersFromRestaurant(restaurant);
     var recipe = 'Ciao tutti !\n' +
         'dzisiejszym gastro managerem dla ' + restaurant + ' jest ' + winner + ' ! \n' +
-        winner + ' oto kontakt do złożenia zamówienia : ' + contact + '\n\n';
-    recipe = recipe + 'Lista zamównień:\n';
-    recipe = recipe + '----------------\n';
-    _.each(users, function(user){
-        recipe = recipe + user + ' ........... ' + ordersDao.getOrderFromRestaurant(restaurant, user) + '\n';
-    });
-    console.log(recipe);
+        winner + ' oto telefon do złożenia zamówienia : ' + contact + '\n';
+
+       if(email){
+           recipe = recipe + 'możesz też skorzystać z maila ' + email + ' \n';
+       }
+       recipe = recipe + '\n\n';
+
+    recipe = prepareOrdersText(users, restaurant, recipe);
     return recipe;
 }
 
@@ -27,11 +29,26 @@ function prepareOrdersStatus(restaurant){
     var users = ordersDao.getCustomersFromRestaurant(restaurant);
     var recipe = 'Ciao tutti !\n' +
         'Obecny stan zamówień dla ' + restaurant + ':\n';
-    recipe = recipe + 'Lista zamównień:\n';
-    recipe = recipe + '----------------\n';
-    _.each(users, function(user){
-        recipe = recipe + user + ' ........... ' + ordersDao.getOrderFromRestaurant(restaurant, user) + '\n';
+    recipe = prepareOrdersText(users, restaurant, recipe);
+    return recipe;
+}
+
+function prepareOrdersText(users, restaurant, recipe) {
+    var benefitRecipe = '\n Lista zamówień z kartą benefit: \n' +
+        '------------------------------\n';
+    var noBenefitRecipe = '\n Lista zamówień BEZ karty benefit: \n' +
+        '------------------------------\n';
+
+    _.each(users, function (user) {
+        var benefitNo = configHelper.getBenefitNo(user);
+        if (benefitNo) {
+            benefitRecipe = benefitRecipe + user + '[karta:' + benefitNo + '] ........... ' + ordersDao.getOrderFromRestaurant(restaurant, user) + '\n';
+        } else {
+            noBenefitRecipe = noBenefitRecipe + user + ' ........... ' + ordersDao.getOrderFromRestaurant(restaurant, user) + '\n';
+        }
+
     });
+    recipe = recipe + benefitRecipe + "\n\n" + noBenefitRecipe;
     return recipe;
 }
 

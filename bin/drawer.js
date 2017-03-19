@@ -10,7 +10,7 @@ function drawAllRestaurants(successCallback, failureCallback){
         if(orders.length >= place.minOrders){
             var winner = draw(orders);
             console.log('order will be placed by ' + winner);
-            successCallback(winner,place.name, place.contact);
+            successCallback(winner,place.name, place.contact, place.email);
         }else {
             console.log('minimum orders ' + place.minOrders + ' not reached for ' + place.name);
             failureCallback(place.name, place.minOrders);

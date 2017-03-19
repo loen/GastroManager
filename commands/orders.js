@@ -4,8 +4,9 @@ var config = require ('../bin/config');
 var util = require('../util');
 var recipeCreator = require ('../bin/recipeCreator');
 var commonResp = require('../bin/commonResp');
+var configHelper = require('../bin/configHelper');
 
-var people = config.settings.people;
+var people = configHelper.getPeople();
 var places = config.settings.places;
 
 module.exports = function order(param){
