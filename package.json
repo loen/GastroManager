@@ -8,6 +8,7 @@
   "dependencies": {
     "moment": "^2.17.1",
     "node-cron": "^1.1.2",
+    "pdfkit": "^0.8.0",
     "request": "~2.72.0",
     "request-promise": "^4.0.1",
     "slack-terminalize ": "^1.0.2",
