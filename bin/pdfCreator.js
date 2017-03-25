@@ -16,7 +16,7 @@ const ROW_HIGH = 20;
 
 
 var users = [];
-for (i = 0; i < 100; i++) {
+for (i = 0; i < 200; i++) {
     users.push({lp: i, user: 'a.pozlutko' + i, benefitNo: '1234567'});
 }
 generatePdf('24-03-17',users);
@@ -31,43 +31,28 @@ function generatePdf(date,users){
 
     var nextPages = length > ROWS_ON_FIRST_PAGE;
 
-    for (i = 0; i < ROWS_ON_FIRST_PAGE; i++) {
-        var benefitNo = users[i].benefitNo;
-        var user = users[i].user;
-        addNewTableRow(doc, HEADER_START + HEADER_ROW_HIGH, 0  , i, benefitNo, date, user);
+    var firstPageCount = users.length;
+    var totalPageCount = 1;
+    if(nextPages){
+        firstPageCount = ROWS_ON_FIRST_PAGE;
+        totalPageCount = totalPageCount +  Math.floor((length - ROWS_ON_FIRST_PAGE) / ROWS_ON_NEXT_PAGES);
+        if(((length - ROWS_ON_FIRST_PAGE) % ROWS_ON_NEXT_PAGES) > 0){
+            totalPageCount++;
+        }
     }
-    //if(nextPages){
-    //    var lastPage = (length - ROWS_ON_FIRST_PAGE) % ROWS_ON_NEXT_PAGES;
-    //    var noOfPages = Math.floor((length - ROWS_ON_FIRST_PAGE) / ROWS_ON_NEXT_PAGES);
-    //    console.log(lastPage);
-    //    console.log(noOfPages);
-    //    var currentRow = ROWS_ON_FIRST_PAGE;
-    //    for(pageNo = 0; pageNo < noOfPages; pageNo++){
-    //        console.log('page no ' + pageNo);
-    //        doc.addPage();
-    //        for (i = currentRow; i < ROWS_ON_NEXT_PAGES + currentRow; i++) {
-    //            console.log('currentRow=' + currentRow);
-    //            if(i < length) {
-    //                var benefitNo = users[i].benefitNo;
-    //                var user = users[i].user;
-    //                addNewTableRow(doc, 40, ROWS_ON_FIRST_PAGE, (i - (pageNo * ROWS_ON_NEXT_PAGES)), benefitNo, '24/02/2017', user);
-    //                currentRow++;
-    //            }
-    //        }
-    //    }
-    //
-    //}
+    var firstPage = users.slice(0, firstPageCount);
+    generateFullPage(doc,328, firstPage, date);
+    generateFooter(doc,1,totalPageCount);
+
     if(nextPages) {
         var lastPage = (length - ROWS_ON_FIRST_PAGE) % ROWS_ON_NEXT_PAGES;
         var noOfPages = Math.floor((length - ROWS_ON_FIRST_PAGE) / ROWS_ON_NEXT_PAGES);
-        console.log(lastPage);
-        console.log(noOfPages);
         var startIndex = ROWS_ON_FIRST_PAGE;
         for(i = 0; i < noOfPages; i++){
-            console.log('startIndex' + startIndex);
             doc.addPage();
             var input = users.slice(startIndex, startIndex + ROWS_ON_NEXT_PAGES);
-            generateFullPage(doc,input, date);
+            generateFullPage(doc, 40, input, date);
+            generateFooter(doc, i + 2, totalPageCount);
             startIndex = startIndex + ROWS_ON_NEXT_PAGES;
             console.log('page:' + i);
             console.log(input);
@@ -78,7 +63,8 @@ function generatePdf(date,users){
         console.log(lastItems);
         if(lastItems.length > 0){
             doc.addPage();
-            generateFullPage(doc, lastItems, date);
+            generateFullPage(doc, 40, lastItems, date);
+            generateFooter(doc, totalPageCount, totalPageCount);
         }
     }
 
@@ -151,27 +137,26 @@ function addTableRowOnFullPage(doc, offset, index, lp, benefitNo, date, name){
     doc.rect(MARGIN, rowY, LP + BENEFIT_NO + DATE + NAME + SIGNATURE, ROW_HIGH).stroke();
 }
 
-function addNewTableRow(doc, startIndex, offset, lp, benefitNo, date, name){
-    var rowY = startIndex + (lp * ROW_HIGH) - (offset * ROW_HIGH);
-    doc.font('./../fonts/verdana.ttf')
+function generateFooter(doc, pageNo, totalPageNo){
+    doc.font('./../fonts/verdana.ttf');
+    doc.fontSize(7);
+    doc.text('MultiBenefit Sp. z o. o., ul. Plac Europejski 2 00-844 Warszawa;',
+        MARGIN + 70,700, {width: 300, align: 'center'});
+    doc.text('tel. 22 242 48 50, e-mail:', MARGIN + 3 ,710, {width: 300, align: 'center'});
+    doc.fontSize(7)
+        .fillColor('blue')
+        .text('e-mail: biuro@benefitlunch.pl; www.benefitsystems.pl;', MARGIN + 147 ,710, {width: 300, align: 'center', underline: 'true'});
+    doc.fontSize(7)
         .fillColor('black')
-        .fontSize(9);
-    doc.rect(MARGIN, rowY, LP, ROW_HIGH).stroke();
-    doc.text(lp+1 + '.' ,MARGIN + 2 ,rowY + TEXT_FROM_TOP, {width: 100, align: 'left'});
-    doc.rect(MARGIN, rowY, LP + BENEFIT_NO, ROW_HIGH).stroke();
-    doc.text(benefitNo, MARGIN + 30 + LP ,rowY + TEXT_FROM_TOP, {width: 100, align: 'left'});
-    doc.rect(MARGIN, rowY, LP + BENEFIT_NO + DATE, ROW_HIGH).stroke();
-    doc.text(date,MARGIN + 160 + LP ,rowY + TEXT_FROM_TOP, {width: 100, align: 'center'});
-    doc.rect(MARGIN, rowY, LP + BENEFIT_NO + DATE + NAME, ROW_HIGH).stroke();
-    doc.text(name, MARGIN + 260 + LP ,rowY + TEXT_FROM_TOP, {width: 100, align: 'center'});
-    doc.rect(MARGIN, rowY, LP + BENEFIT_NO + DATE + NAME + SIGNATURE, ROW_HIGH).stroke();
+        .text('NIP: 525 252 46 10', MARGIN + 280 ,710, {width: 300, align: 'center'});
+    doc.text('Strona ' + pageNo + ' z ' + totalPageNo, MARGIN + 320 ,690, {width: 300, align: 'center'});
 }
 
-function generateFullPage(doc, input, date) {
+function generateFullPage(doc ,offset, input, date) {
     for (j = 0; j < input.length; j++) {
         var lp = input[j].lp;
         var user = input[j].user;
         var benefitNo = input[j].benefitNo;
-        addTableRowOnFullPage(doc, 40, j, lp, benefitNo, date, user);
+        addTableRowOnFullPage(doc, offset, j, lp, benefitNo, date, user);
     }
 }
