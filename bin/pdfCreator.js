@@ -1,5 +1,6 @@
 var pdf = require('pdfkit');
 var fs = require('fs');
+var restUtil = require('./../restUtil');
 const MARGIN = 40;
 const ROWS_ON_FIRST_PAGE = 18;
 const ROWS_ON_NEXT_PAGES = 32;
@@ -14,16 +15,19 @@ const SIGNATURE = 100;
 const HEADER_ROW_HIGH = 30;
 const ROW_HIGH = 20;
 
-
 var users = [];
 for (i = 0; i < 200; i++) {
     users.push({lp: i, user: 'a.pozlutko' + i, benefitNo: '1234567'});
 }
-generatePdf('24-03-17',users);
+generatePdf('24-03-17',users, function(date){
+    restUtil.postPdf(date);
+});
 
-function generatePdf(date,users){
+function generatePdf(date,users, successCallback){
     var doc = new pdf;
-    doc.pipe(fs.createWriteStream('./../output/'+ date +'.pdf'));
+    var stream = fs.createWriteStream('./../output/'+ date +'.pdf');
+    doc.pipe(stream);
+    stream.on('finish', function () { successCallback(date)});
     createDocumentHeader(doc);
     createTableHeader(doc);
 
