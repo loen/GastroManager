@@ -2,7 +2,7 @@ var pdf = require('pdfkit');
 var fs = require('fs');
 const MARGIN = 40;
 const ROWS_ON_FIRST_PAGE = 18;
-const ROWS_ON_NEXT_PAGES = 33;
+const ROWS_ON_NEXT_PAGES = 32;
 const HEADER_START = 298;
 const TEXT_FROM_TOP = 3;
 const HEADER_TEXT_START = HEADER_START + TEXT_FROM_TOP;
@@ -17,7 +17,7 @@ const ROW_HIGH = 20;
 
 var users = [];
 for (i = 0; i < 100; i++) {
-    users.push({user: 'a.pozlutko' + i, benefitNo: '1234567'})
+    users.push({lp: i, user: 'a.pozlutko' + i, benefitNo: '1234567'});
 }
 generatePdf('24-03-17',users);
 
@@ -36,18 +36,52 @@ function generatePdf(date,users){
         var user = users[i].user;
         addNewTableRow(doc, HEADER_START + HEADER_ROW_HIGH, 0  , i, benefitNo, date, user);
     }
-    if(nextPages){
+    //if(nextPages){
+    //    var lastPage = (length - ROWS_ON_FIRST_PAGE) % ROWS_ON_NEXT_PAGES;
+    //    var noOfPages = Math.floor((length - ROWS_ON_FIRST_PAGE) / ROWS_ON_NEXT_PAGES);
+    //    console.log(lastPage);
+    //    console.log(noOfPages);
+    //    var currentRow = ROWS_ON_FIRST_PAGE;
+    //    for(pageNo = 0; pageNo < noOfPages; pageNo++){
+    //        console.log('page no ' + pageNo);
+    //        doc.addPage();
+    //        for (i = currentRow; i < ROWS_ON_NEXT_PAGES + currentRow; i++) {
+    //            console.log('currentRow=' + currentRow);
+    //            if(i < length) {
+    //                var benefitNo = users[i].benefitNo;
+    //                var user = users[i].user;
+    //                addNewTableRow(doc, 40, ROWS_ON_FIRST_PAGE, (i - (pageNo * ROWS_ON_NEXT_PAGES)), benefitNo, '24/02/2017', user);
+    //                currentRow++;
+    //            }
+    //        }
+    //    }
+    //
+    //}
+    if(nextPages) {
         var lastPage = (length - ROWS_ON_FIRST_PAGE) % ROWS_ON_NEXT_PAGES;
         var noOfPages = Math.floor((length - ROWS_ON_FIRST_PAGE) / ROWS_ON_NEXT_PAGES);
         console.log(lastPage);
         console.log(noOfPages);
-        doc.addPage();
-        for (i = ROWS_ON_FIRST_PAGE; i < ROWS_ON_NEXT_PAGES; i++) {
-            var benefitNo = users[i].benefitNo;
-            var user = users[i].user;
-            addNewTableRow(doc, 40, ROWS_ON_FIRST_PAGE, i, benefitNo, '24/02/2017', user);
+        var startIndex = ROWS_ON_FIRST_PAGE;
+        for(i = 0; i < noOfPages; i++){
+            console.log('startIndex' + startIndex);
+            doc.addPage();
+            var input = users.slice(startIndex, startIndex + ROWS_ON_NEXT_PAGES);
+            generateFullPage(doc,input, date);
+            startIndex = startIndex + ROWS_ON_NEXT_PAGES;
+            console.log('page:' + i);
+            console.log(input);
+        }
+
+        var lastItems = users.slice(startIndex, users.length);
+        console.log('last page');
+        console.log(lastItems);
+        if(lastItems.length > 0){
+            doc.addPage();
+            generateFullPage(doc, lastItems, date);
         }
     }
+
     doc.end();
 }
 
@@ -101,6 +135,22 @@ function createTableHeader(doc){
     doc.text('PARAFA UŻYTKOWNIKA',MARGIN + 360 + LP ,HEADER_TEXT_START, {width: 100, align: 'center'});
 }
 
+function addTableRowOnFullPage(doc, offset, index, lp, benefitNo, date, name){
+    var rowY = offset + (index * ROW_HIGH);
+    doc.font('./../fonts/verdana.ttf')
+        .fillColor('black')
+        .fontSize(9);
+    doc.rect(MARGIN, rowY, LP, ROW_HIGH).stroke();
+    doc.text(lp+1 + '.' ,MARGIN + 2 ,rowY + TEXT_FROM_TOP, {width: 100, align: 'left'});
+    doc.rect(MARGIN, rowY, LP + BENEFIT_NO, ROW_HIGH).stroke();
+    doc.text(benefitNo, MARGIN + 30 + LP ,rowY + TEXT_FROM_TOP, {width: 100, align: 'left'});
+    doc.rect(MARGIN, rowY, LP + BENEFIT_NO + DATE, ROW_HIGH).stroke();
+    doc.text(date,MARGIN + 160 + LP ,rowY + TEXT_FROM_TOP, {width: 100, align: 'center'});
+    doc.rect(MARGIN, rowY, LP + BENEFIT_NO + DATE + NAME, ROW_HIGH).stroke();
+    doc.text(name, MARGIN + 260 + LP ,rowY + TEXT_FROM_TOP, {width: 100, align: 'center'});
+    doc.rect(MARGIN, rowY, LP + BENEFIT_NO + DATE + NAME + SIGNATURE, ROW_HIGH).stroke();
+}
+
 function addNewTableRow(doc, startIndex, offset, lp, benefitNo, date, name){
     var rowY = startIndex + (lp * ROW_HIGH) - (offset * ROW_HIGH);
     doc.font('./../fonts/verdana.ttf')
@@ -115,4 +165,13 @@ function addNewTableRow(doc, startIndex, offset, lp, benefitNo, date, name){
     doc.rect(MARGIN, rowY, LP + BENEFIT_NO + DATE + NAME, ROW_HIGH).stroke();
     doc.text(name, MARGIN + 260 + LP ,rowY + TEXT_FROM_TOP, {width: 100, align: 'center'});
     doc.rect(MARGIN, rowY, LP + BENEFIT_NO + DATE + NAME + SIGNATURE, ROW_HIGH).stroke();
+}
+
+function generateFullPage(doc, input, date) {
+    for (j = 0; j < input.length; j++) {
+        var lp = input[j].lp;
+        var user = input[j].user;
+        var benefitNo = input[j].benefitNo;
+        addTableRowOnFullPage(doc, 40, j, lp, benefitNo, date, user);
+    }
 }
