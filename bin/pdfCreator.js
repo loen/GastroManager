@@ -1,6 +1,12 @@
 var pdf = require('pdfkit');
 var fs = require('fs');
-var restUtil = require('./../restUtil');
+var joinPath = require('path.join');
+var ordersDao = require ('./ordersDao');
+var configHelper = require('./configHelper');
+var _ = require('underscore');
+var moment = require('moment');
+var dateUtil = require ('./dateUtil');
+
 const MARGIN = 40;
 const ROWS_ON_FIRST_PAGE = 18;
 const ROWS_ON_NEXT_PAGES = 32;
@@ -15,19 +21,35 @@ const SIGNATURE = 100;
 const HEADER_ROW_HIGH = 30;
 const ROW_HIGH = 20;
 
-var users = [];
-for (i = 0; i < 200; i++) {
-    users.push({lp: i, user: 'a.pozlutko' + i, benefitNo: '1234567'});
-}
-generatePdf('24-03-17',users, function(date){
-    restUtil.postPdf(date);
-});
+//var users = [];
+//for (i = 0; i < 2; i++) {
+//    users.push({lp: i, user: 'a.pozlutko' + i, benefitNo: '1234567'});
+//}
+//generatePdf('test',users, function(date){
+//   restUtil.postPdf(date);
+//});
 
-function generatePdf(date,users, successCallback){
+function generatePdf(restaurant, successCallback){
+    var userIds = ordersDao.getCustomersFromRestaurant(restaurant);
+    if(userIds.length === 0){ return;}
+    var users = [];
+    var userLp=1;
+    _.each(userIds, function(userId){
+       users.push({
+         lp: userLp,
+         user: userId,
+         benefitNo: configHelper.getBenefitNo(userId)
+       });
+       userLp++;
+    });
     var doc = new pdf;
-    var stream = fs.createWriteStream('./../output/'+ date +'.pdf');
+    var date = dateUtil.formatFileTimestamp(moment());
+    var text = joinPath(__dirname + './../output/',restaurant + '-' + date + '.pdf');
+
+    console.log(text);
+    var stream = fs.createWriteStream(text);
     doc.pipe(stream);
-    stream.on('finish', function () { successCallback(date)});
+    stream.on('finish', function () { successCallback(restaurant + '-' + date)});
     createDocumentHeader(doc);
     createTableHeader(doc);
 
@@ -76,7 +98,7 @@ function generatePdf(date,users, successCallback){
 }
 
 function createDocumentHeader(doc){
-    doc.font('./../fonts/comicbd.ttf')
+    doc.font(joinPath(__dirname + './../fonts', 'comicbd.ttf'))
         .fontSize(10)
         .text('Wydania użytkowników MULTIBENEFIT', MARGIN, 50,{width: 200,
             align: 'left'});
@@ -94,10 +116,10 @@ function createDocumentHeader(doc){
     doc.text('W (miasto/ulica)…………………………………………….', MARGIN, 184,{width: 400, align: 'left'});
     doc.text('Miesiąc…………………………………………….', MARGIN, 196,{width: 400, align: 'left'});
 
-    doc.font('./../fonts/verdanab.ttf');
+    doc.font(joinPath(__dirname + './../fonts/verdanab.ttf'));
     doc.fontSize(7)
         .text('Uprzejmie prosimy o odnotowanie daty wydania, realizacji usługi na Kartę „BENEFITLUNCH”', MARGIN, 225, {width: 500, align: 'center'});
-    doc.font('./../fonts/verdana.ttf')
+    doc.font(joinPath(__dirname + './../fonts/verdana.ttf'))
     doc.fontSize(7)
         .text('W przypadku pytań prosimy o kontakt z działem obsługi klienta pod numerem tel. 22 242 48 50 lub mailem:', MARGIN, 255, {width: 500, align: 'left'});
 
@@ -105,11 +127,11 @@ function createDocumentHeader(doc){
         .fillColor('blue')
         .text('biuro@benefitlunch.pl', 424, 255, {width: 100, align: 'left', underline: 'true'})
 
-    doc.image('./../res/benefit.png', 350, 85, {scale: 0.70});
+    doc.image(joinPath(__dirname + './../res/benefit.png'), 350, 85, {scale: 0.70});
 }
 
 function createTableHeader(doc){
-    doc.font('./../fonts/verdanab.ttf')
+    doc.font(joinPath(__dirname + './../fonts/verdanab.ttf'))
         .fillColor('black')
         .fontSize(9);
 
@@ -127,7 +149,7 @@ function createTableHeader(doc){
 
 function addTableRowOnFullPage(doc, offset, index, lp, benefitNo, date, name){
     var rowY = offset + (index * ROW_HIGH);
-    doc.font('./../fonts/verdana.ttf')
+    doc.font(joinPath(__dirname + './../fonts/verdana.ttf'))
         .fillColor('black')
         .fontSize(9);
     doc.rect(MARGIN, rowY, LP, ROW_HIGH).stroke();
@@ -142,7 +164,7 @@ function addTableRowOnFullPage(doc, offset, index, lp, benefitNo, date, name){
 }
 
 function generateFooter(doc, pageNo, totalPageNo){
-    doc.font('./../fonts/verdana.ttf');
+    doc.font(joinPath(__dirname + './../fonts/verdana.ttf'));
     doc.fontSize(7);
     doc.text('MultiBenefit Sp. z o. o., ul. Plac Europejski 2 00-844 Warszawa;',
         MARGIN + 70,700, {width: 300, align: 'center'});
@@ -164,3 +186,4 @@ function generateFullPage(doc ,offset, input, date) {
         addTableRowOnFullPage(doc, offset, j, lp, benefitNo, date, user);
     }
 }
+exports.generatePdf=generatePdf;

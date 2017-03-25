@@ -11,5 +11,11 @@ function isInTimeWindow(date, start,end){
     return (date.diff(start) >= 0) & (date.diff(end) < 0);
 }
 
+function formatFileTimestamp(now){
+    var timestamp = now.date() + '-' + (now.month() + 1) + '-' + now.year();
+    return timestamp;
+}
+
 exports.formatToDate = formatToDate;
 exports.isInTimeWindow = isInTimeWindow;
+exports.formatFileTimestamp = formatFileTimestamp;
