@@ -20,5 +20,15 @@ function getBenefitNo(name){
     return null;
 }
 
+function getBenefitNoLength(restaurant){
+    var places = config.settings.places;
+    var restaurant =_.findWhere(places, {name: restaurant});
+    if(restaurant.benefitNumberLength){
+        return restaurant.benefitNumberLength;
+    }
+    return null;
+}
+
 exports.getPeople = getPeople;
 exports.getBenefitNo = getBenefitNo;
+exports.getBenefitNoLength = getBenefitNoLength;

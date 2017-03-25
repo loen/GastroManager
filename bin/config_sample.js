@@ -11,7 +11,8 @@ const config = {
             name: 'emes',
             contact: '007',
             email: 'emes@emes.com',
-            minOrders: 1
+            benefitNumberLength: 4,
+            minOrders: 1,
         }
     ],
     people: [{

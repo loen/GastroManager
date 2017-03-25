@@ -28,20 +28,25 @@ const ROW_HIGH = 20;
 //generatePdf('test',users, function(date){
 //   restUtil.postPdf(date);
 //});
-
 function generatePdf(restaurant, successCallback){
     var userIds = ordersDao.getCustomersFromRestaurant(restaurant);
+    var benefitNoLength = configHelper.getBenefitNoLength(restaurant);
     if(userIds.length === 0){ return;}
     var users = [];
     var userLp=1;
     _.each(userIds, function(userId){
-       users.push({
-         lp: userLp,
-         user: userId,
-         benefitNo: configHelper.getBenefitNo(userId)
-       });
-       userLp++;
+        var benefitNo = configHelper.getBenefitNo(userId);
+       if(benefitNo) {
+           benefitNo = trimBenefitNo(benefitNoLength, benefitNo);
+           users.push({
+               lp: userLp,
+               user: userId,
+               benefitNo: benefitNo
+           });
+           userLp++;
+       }
     });
+    console.log(users);
     var doc = new pdf;
     var date = dateUtil.formatFileTimestamp(moment());
     var text = joinPath(__dirname + './../output/',restaurant + '-' + date + '.pdf');
@@ -153,7 +158,7 @@ function addTableRowOnFullPage(doc, offset, index, lp, benefitNo, date, name){
         .fillColor('black')
         .fontSize(9);
     doc.rect(MARGIN, rowY, LP, ROW_HIGH).stroke();
-    doc.text(lp+1 + '.' ,MARGIN + 2 ,rowY + TEXT_FROM_TOP, {width: 100, align: 'left'});
+    doc.text(lp + '.' ,MARGIN + 2 ,rowY + TEXT_FROM_TOP, {width: 100, align: 'left'});
     doc.rect(MARGIN, rowY, LP + BENEFIT_NO, ROW_HIGH).stroke();
     doc.text(benefitNo, MARGIN + 30 + LP ,rowY + TEXT_FROM_TOP, {width: 100, align: 'left'});
     doc.rect(MARGIN, rowY, LP + BENEFIT_NO + DATE, ROW_HIGH).stroke();
@@ -185,5 +190,13 @@ function generateFullPage(doc ,offset, input, date) {
         var benefitNo = input[j].benefitNo;
         addTableRowOnFullPage(doc, offset, j, lp, benefitNo, date, user);
     }
+}
+
+function trimBenefitNo(benefitNoLength, benefitNo){
+    if(benefitNoLength && benefitNo.length > benefitNoLength){
+        var prefix = benefitNo.length - benefitNoLength;
+        benefitNo = benefitNo.substr(prefix);
+    }
+    return benefitNo;
 }
 exports.generatePdf=generatePdf;
