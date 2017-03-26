@@ -35,11 +35,11 @@ function orderProcessing(user, param){
         if(dateUtil.isInTimeWindow(now,startTime,drawTime)) {
             var restaurant = param.args[1];
             if(ordersDao.removeOrderFromRestaurant(restaurant,user)) {
-                util.postMessage(param.channel, 'Grazie, Twoje zamówenie zostało usuniętę, mamma mia.');
+                util.postMessage(param.channel, 'Grazie, Twoje zamówienie zostało usunięte, mamma mia.');
             }
         }else {
             util.postMessage(param.channel,
-                'Scusi zamówienia mogą być usuwane tylko między [' + timeWindowStart + '-' + drawTimeWindow + ']');
+                'Scusi zamówienia mogą być usuwane tylko między ' + timeWindowStart + ' a ' + drawTimeWindow);
         }
 
     }else if(param.args.length >= 3 & param.args[0]=== 'place'){
@@ -48,14 +48,14 @@ function orderProcessing(user, param){
             var dish = param.args.splice(2).join(' ');
             var resp = '';
             if(ordersDao.addOrderToRestaurant(restaurant, user, dish)){
-                resp = 'che bello!! Twoje zamównienie zostało złożone.';
+                resp = 'Che bello!! Twoje zamównienie zostało złożone.';
             } else{
                 resp = user + ' tranquillo, masz już zamówienie: ' + ordersDao.getOrderFromRestaurant(restaurant, user);
             }
             util.postMessage(param.channel, resp);
         }else {
             util.postMessage(param.channel,
-                'Scusi - zamówienia można składać tylko pomiędzy: [' + timeWindowStart + '-' + timeWindowEnd + ']');
+                'Scusi zamówienia mogą być składane tylko między ' + timeWindowStart + ' a ' + timeWindowEnd);
         }
 
     } else {

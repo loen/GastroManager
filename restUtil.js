@@ -14,14 +14,18 @@ function getUser(userId){
     return rp(options).then(function (resp) {
         return resp.user.name;
     });
-};
+}
 
-function postMessage(channel, message, asUser){
+function postBlockMessage(channel, message, asUser){
     message = '```' + message + '```';
+    return postRawMessage(channel, message, asUser);
+}
+
+function postRawMessage(channel, message, asUser) {
     message = strictUriEncode(message);
     var options = {
         uri:  'https://slack.com/api/chat.postMessage?token=' + config.settings.token + '&channel=' + channel +
-              '&text=' + message + '&as_user=' + asUser + '&parse=true',
+        '&text=' + message + '&as_user=' + asUser + '&parse=true',
         json: true
     };
 
@@ -42,8 +46,8 @@ function postPdf(fileName){
             filename: fileName + ".pdf",
             filetype: "auto",
             channels: config.settings.channel,
-            file: fs.createReadStream(filePath),
-        },
+            file: fs.createReadStream(filePath)
+        }
     }, function (err, response) {
         console.log(JSON.parse(response.body));
     });
@@ -51,5 +55,6 @@ function postPdf(fileName){
 }
 
 exports.getUser = getUser;
-exports.postMessage = postMessage;
+exports.postMessage = postBlockMessage;
+exports.postRawMessage = postRawMessage;
 exports.postPdf = postPdf;
