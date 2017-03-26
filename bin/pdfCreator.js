@@ -35,12 +35,12 @@ function generatePdf(restaurant, successCallback){
     var users = [];
     var userLp=1;
     _.each(userIds, function(userId){
-        var benefitNo = configHelper.getBenefitNo(userId);
+        var benefitNo = configHelper.getBenefitNo(userId.name);
        if(benefitNo) {
            benefitNo = trimBenefitNo(benefitNoLength, benefitNo);
            users.push({
                lp: userLp,
-               user: userId,
+               user: userId.name,
                benefitNo: benefitNo
            });
            userLp++;

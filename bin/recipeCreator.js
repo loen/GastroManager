@@ -4,7 +4,7 @@ var configHelper = require('./configHelper');
 
 function prepareRecipe(winner, restaurant, contact, email){
     var users = ordersDao.getCustomersFromRestaurant(restaurant);
-    var recipe = 'Buongiorno, *' + winner + '* jesteś gastro managerem dla *' + restaurant + '*, complimenti!\n' +
+    var recipe = 'Buongiorno, <@' + winner.id + '|' + winner.name + '> jesteś gastro managerem dla *' + restaurant + '*, complimenti!\n' +
         'Oto telefon do złożenia zamówienia: *' + contact + '*';
 
     if (email) {
@@ -38,11 +38,11 @@ function prepareOrdersText(users, restaurant) {
     var recipe;
 
     _.each(users, function (user) {
-        var benefitNo = configHelper.getBenefitNo(user);
+        var benefitNo = configHelper.getBenefitNo(user.name);
         if (benefitNo) {
-            benefitRecipe = benefitRecipe + user + '[karta:' + benefitNo + '] ........... ' + ordersDao.getOrderFromRestaurant(restaurant, user) + '\n';
+            benefitRecipe = benefitRecipe + user.name + '[karta:' + benefitNo + '] ........... ' + ordersDao.getOrderFromRestaurant(restaurant, user) + '\n';
         } else {
-            noBenefitRecipe = noBenefitRecipe + user + ' ........... ' + ordersDao.getOrderFromRestaurant(restaurant, user) + '\n';
+            noBenefitRecipe = noBenefitRecipe + user.name + ' ........... ' + ordersDao.getOrderFromRestaurant(restaurant, user) + '\n';
         }
 
     });

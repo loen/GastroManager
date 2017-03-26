@@ -17,6 +17,7 @@ module.exports = function order(param){
 
     restUtil.getUser(param.user).then(function(user){
         if(_.contains(people, user)){
+            user = {id: param.user, name: user};
             orderProcessing(user, param);
         }else{
             commonResp.sendUserUnregistered(param.channel);
@@ -34,7 +35,7 @@ function orderProcessing(user, param){
     if(param.args.length >= 2 & param.args[0]==='remove'){
         if(dateUtil.isInTimeWindow(now,startTime,drawTime)) {
             var restaurant = param.args[1];
-            if(ordersDao.removeOrderFromRestaurant(restaurant,user)) {
+            if(ordersDao.removeOrderFromRestaurant(restaurant, user)) {
                 util.postMessage(param.channel, 'Grazie, Twoje zamówienie zostało usunięte, mamma mia.');
             }
         }else {
@@ -50,7 +51,7 @@ function orderProcessing(user, param){
             if(ordersDao.addOrderToRestaurant(restaurant, user, dish)){
                 resp = 'Che bello!! Twoje zamównienie zostało złożone.';
             } else{
-                resp = user + ' tranquillo, masz już zamówienie: ' + ordersDao.getOrderFromRestaurant(restaurant, user);
+                resp = user.name + ' tranquillo, masz już zamówienie: ' + ordersDao.getOrderFromRestaurant(restaurant, user);
             }
             util.postMessage(param.channel, resp);
         }else {
