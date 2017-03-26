@@ -23,7 +23,7 @@ module.exports = function order(param){
         }
     });
 
-}
+};
 
 function orderProcessing(user, param){
     var now = moment();
@@ -31,7 +31,7 @@ function orderProcessing(user, param){
     var endTime = dateUtil.formatToDate(now, timeWindowEnd);
     var drawTime = dateUtil.formatToDate(now, drawTimeWindow);
 
-    if(param.args.length === 2 & param.args[0]==='remove'){
+    if(param.args.length >= 2 & param.args[0]==='remove'){
         if(dateUtil.isInTimeWindow(now,startTime,drawTime)) {
             var restaurant = param.args[1];
             if(ordersDao.removeOrderFromRestaurant(restaurant,user)) {
