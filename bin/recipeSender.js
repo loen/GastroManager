@@ -5,8 +5,8 @@ var config = require ('./config');
 
 function sendRecipe(winner, restaurant, contact, email){
     var msg = recipeCreator.prepareRecipe(winner, restaurant, contact, email);
-    restUtil.postMessage('@' + winner, msg, false);
-    restUtil.postMessage(config.settings.channel, msg, true);
+    restUtil.postRawMessage('@' + winner.name, msg, false);
+    restUtil.postRawMessage(config.settings.channel, msg, true);
     pdfCreator.generatePdf(restaurant,function(fileName){
         restUtil.postPdf(fileName)});
 }
