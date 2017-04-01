@@ -13,7 +13,7 @@ function sendRecipe(winner, restaurant, contact, email){
 
 function sendUnableToPrepareRecipe(restaurant, minOrdersCount){
     var msg = recipeCreator.unableToPrepareRecipe(restaurant, minOrdersCount);
-    restUtil.postMessage(config.settings.channel, msg, false);
+    restUtil.postRawMessage(config.settings.channel, msg, false);
 }
 
 exports.sendRecipe=sendRecipe;
