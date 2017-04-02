@@ -7,7 +7,6 @@
     "test": "./node_modules/.bin/jasmine-node spec"
   },
   "dependencies": {
-    "jasmine-node": "^1.14.5",
     "moment": "^2.17.1",
     "node-cron": "^1.1.2",
     "path.join": "^1.0.0",
@@ -17,5 +16,8 @@
     "slack-terminalize ": "^1.0.2",
     "strict-uri-encode": "^2.0.0",
     "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "jasmine-node": "^1.14.5"
   }
 }
