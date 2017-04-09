@@ -1,6 +1,7 @@
 var ordersDao = require ('./ordersDao');
 var _ = require('underscore');
 var configHelper = require('./configHelper');
+var orderManager = require('./orderManager');
 
 function prepareRecipe(winner, restaurant, contact, email){
     var users = ordersDao.getCustomersFromRestaurant(restaurant);
@@ -85,6 +86,53 @@ function pad_right(string, paddingChar, size) {
     return string;
 }
 
+function prepareGroupedOrderRecipe(restaurant) {
+    var users = ordersDao.getCustomersFromRestaurant(restaurant);
+    var orders = prepareOrderLines(users, restaurant);
+    var groupedBenefitOrders = orderManager.groupOrders(_.map(orders.benefitOrderLines, getOrder));
+    var groupedNoBenefitOrders = orderManager.groupOrders(_.map(orders.noBenefitOrderLines, getOrder));
+    var result = '';
+
+    if (_.size(groupedBenefitOrders) > 0) {
+        result = result + '*** Zamówienie na kartę Benefit ***\n' + groupedBenefitOrders.join('\n') + '\n';
+    }
+    if (_.size(groupedBenefitOrders) > 0 && _.size(groupedNoBenefitOrders) > 0) {
+        result = result + '\n';
+    }
+    if (_.size(groupedNoBenefitOrders) > 0) {
+        result = result + '*** Zamówienie płatne gotówką ***\n' + groupedNoBenefitOrders.join('\n') + '\n';
+    }
+
+    result = result + '\n#####################################\n';
+    result = result + '###   Oryginalny zestaw zamówień  ###\n';
+    result = result + '#####################################\n';
+
+    if (_.size(orders.benefitOrderLines) > 0) {
+        result = result + '\nLista zamówień NA kartę benefit:\n';
+        result = result + _.map(orders.benefitOrderLines, function (order) {
+                var prefix = order.user + ' (benefit: ' + order.cardId + ') ';
+                return pad_right(prefix, '.', 50) + ' ' + order.order;
+            }).join("\n");
+    }
+    if (_.size(groupedBenefitOrders) > 0 && _.size(groupedNoBenefitOrders) > 0) {
+        result = result + '\n';
+    }
+    if (_.size(orders.noBenefitOrderLines) > 0) {
+        result = result + '\nLista zamówień BEZ karty benefit:\n';
+        result = result + _.map(orders.noBenefitOrderLines, function (order) {
+                var prefix = order.user + ' ';
+                return pad_right(prefix, '.', 30) + ' ' + order.order;
+            }).join("\n");
+    }
+
+    return '```' + result + '```';
+}
+
+function getOrder(orderLine) {
+    return orderLine.order;
+}
+
 exports.prepareRecipe = prepareRecipe;
 exports.unableToPrepareRecipe = unableToPrepareRecipe;
 exports.prepareOrdersStatus = prepareOrdersStatus;
+exports.prepareGroupedOrderRecipe = prepareGroupedOrderRecipe;
