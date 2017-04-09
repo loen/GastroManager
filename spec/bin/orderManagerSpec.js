@@ -1,15 +1,20 @@
-var manager = require("../bin/orderManager");
+var manager = require("'./../../bin/orderManager");
 var _ = require('underscore');
 
 describe("Order Manager", function () {
 
     beforeEach(function () {
-        this.addMatchers({
-            toContainAll: function (expected) {
-                var actual = this.actual;
-                return _.every(expected, function (e) {
-                    return _.contains(actual, e);
-                });
+        jasmine.addMatchers({
+            toContainAll: function () {
+                return {
+                    compare: function(actual, expected) {
+                        var result = {};
+                        result.pass = _.every(expected, function (e) {
+                          return _.contains(actual, e);
+                        });
+                        return result;
+                    }
+                };
             }
         });
     });
