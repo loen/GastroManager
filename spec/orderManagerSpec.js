@@ -34,19 +34,18 @@ describe("Order Manager", function () {
             'danie dnia bez miesa (makaron z lososiem)'
         ];
         var expectedOrder = [
-            '3 x danie dnia bez miesa',
+            '3 x danie dnia bez mięsa',
+            '2 x zupa + danie dnia',
             '2 x danie dnia',
-            '1 x danie dania bez miesa makaron',
-            '1 x danie dnia bez miesa makaron z lososiem',
-            '1 x danie dnia zupa',
-            '1 x makaron z lososiem szpinakiem czosnek w sosie kremowym zapiekany w piecu z serem mozzarella',
+            '1 x danie dania bez mięsa (makaron)',
+            '1 x danie dnia bez miesa (makaron z lososiem)',
+            '1 x makaron z łososiem, szpinakiem, czosnek w sosie kremowym, zapiekany w piecu z serem mozzarella',
             '1 x pierogi z truskawkami',
-            '1 x pizza pepperoni zupa',
-            '1 x zupa danie dnia',
-            '1 x zupa danie dnia bez miesa makaron z lososiem szpinakiem czosnek w sosie kremowym zapiekany w piecu z serem mozzarella',
-            '1 x zupa dnia makaron z lososiem dnia',
-            '1 x zupa makaron orzechy wloskie pesto',
-            '1 x zupa makaron orzechy wloskie sos pesto'
+            '1 x pizza-pepperoni + zupa',
+            '1 x zupa + danie dnia bez mięsa - makaron z łososiem, szpinakiem, czosnek w sosie kremowym, zapiekany w piecu z serem mozzarella',
+            '1 x zupa dnia + makaron z łososiem dnia',
+            '1 x zupa + makaron orzechy włoskie, pesto',
+            '1 x zupa, makaron orzechy włoskie, sos pesto'
         ];
         expect(manager.groupOrders(order)).toContainAll(expectedOrder);
     });
@@ -75,12 +74,12 @@ describe("Order Manager", function () {
             '1 x pierogi z truskawkami',
             '1 x pizza pepperoni',
             '1 x pizza salami',
-            '1 x zupa dnia danie dnia',
-            '1 x zupa makaron kurczak szpinak oliwa',
-            '1 x zupa makaron orzechy wloskie sos pesto',
-            '1 x zupa makaron z lososiem',
-            '1 x zupa makaron z lososiem na ostro',
-            '1 x zupa salatka wiosenna'
+            '1 x zupa dnia + danie-dnia',
+            '1 x zupa, makaron kurczak, szpinak, oliwa',
+            '1 x zupa, makaron orzechy włoskie sos pesto',
+            '1 x zupa + makaron z łososiem',
+            '1 x zupa + makaron z łososiem na ostro',
+            '1 x zupa + sałatka wiosenna'
         ];
         expect(manager.groupOrders(order)).toContainAll(expectedOrder);
     });
@@ -103,23 +102,23 @@ describe("Order Manager", function () {
             'zupa + pizza hawajska',
             'danie dnia',
             'zupa, makaron kurczak, pieczarki, cebula, oliwa',
-            'zupa + makaron z łososiem ',
-            'danie dnia ',
-            'danie dnia ',
+            'zupa + makaron z łososiem',
+            'danie dnia',
+            'danie dnia',
             'zupa + makaron kurczak pieczarki cebula',
             'zupa, orzechy włoskie, sos pesto',
-            'danie dnia ',
-            'danie dnia '
+            'danie dnia',
+            'danie dnia'
         ];
         var expectedOrder = [
             '14 x danie dnia',
-            '2 x pizza pepperoni zupa',
-            '2 x zupa pizza hawajska',
-            '1 x zupa makaron kurczak pieczarki cebula',
-            '1 x zupa makaron kurczak pieczarki cebula oliwa',
-            '1 x zupa makaron z lososiem',
-            '1 x zupa orzechy wloskie sos pesto',
-            '1 x zupa pizza fungi'
+            '2 x pizza-pepperoni + zupa',
+            '2 x zupa + pizza hawajska',
+            '1 x zupa + makaron kurczak pieczarki cebula',
+            '1 x zupa, makaron kurczak, pieczarki, cebula, oliwa',
+            '1 x zupa + makaron z łososiem',
+            '1 x zupa, orzechy włoskie, sos pesto',
+            '1 x zupa + pizza fungi'
         ];
         expect(manager.groupOrders(order)).toContainAll(expectedOrder);
     });
@@ -136,12 +135,12 @@ describe("Order Manager", function () {
             'zestaw pizza hawajska + zupa dnia'
         ];
         var expectedOrder = [
-            '3 x zupa danie dnia',
+            '3 x zupa + danie dnia',
             '1 x danie dnia',
-            '1 x zestaw pizza hawajska zupa dnia',
-            '1 x zupa makaron bolognese',
-            '1 x zupa makaron z lososiem',
-            '1 x zupa salatka wiosenna'
+            '1 x zestaw pizza hawajska + zupa dnia',
+            '1 x zupa + makaron bolognese',
+            '1 x zupa + makaron z łososiem',
+            '1 x zupa + sałatka wiosenna'
         ];
         expect(manager.groupOrders(order)).toContainAll(expectedOrder);
     });
@@ -155,8 +154,8 @@ describe("Order Manager", function () {
         ];
         var expectedOrder = [
             '2 x danie dnia',
-            '1 x zupa makaron kurczak pieczarki cebula s kremowy',
-            '1 x zupa salatka wiosenna'
+            '1 x zupa + makaron (kurczak, pieczarki, cebula, s. kremowy)',
+            '1 x zupa, sałatka wiosenna'
         ];
         expect(manager.groupOrders(order)).toContainAll(expectedOrder);
     });
@@ -171,8 +170,8 @@ describe("Order Manager", function () {
             'Makaron ryżowy z warzywami w aromatycznych przyprawach korzennych, przyrządzony na ostro z wieprzowiną'
         ];
         var expectedOrder = [
-            '5 x makaron ryzowy z warzywami w aromatycznych przyprawach korzennych przyrzadzony na ostro z wieprzowiną',
-            '1 x makaron ryzowy z warzywami w aromatycznych przyprawach korzennych przyrzadzony na ostro z tofu'
+            '5 x makaron ryżowy z warzywami w aromatycznych przyprawach korzennych, przyrządzony na ostro z wieprzowiną',
+            '1 x makaron ryżowy z warzywami w aromatycznych przyprawach korzennych, przyrządzony na ostro z tofu'
         ];
         expect(manager.groupOrders(order)).toContainAll(expectedOrder);
     });
@@ -191,15 +190,15 @@ describe("Order Manager", function () {
             'zupa, makaron orzechy włoskie, sos pesto'
         ];
         var expectedOrder = [
-            '2 x zupa pizza pepperoni',
+            '2 x zupa + pizza pepperoni',
             '1 x pizza pepperoni',
-            '1 x zestaw 2 zupa makaron kurczak pieczarki cebula oliwa/sos kremowy',
-            '1 x zupa dnia danie dnia',
-            '1 x zupa makaron losos kapary sos kremowy na ostro',
-            '1 x zupa makaron orzechy wloskie sos pesto',
-            '1 x zupa makaron z lososiem kapary sos kremowy łagodny',
-            '1 x zupa pizza fungi',
-            '1 x zupa salatka wiosenna z sosem czosnkowym'
+            '1 x zestaw 2 zupa + makaron kurczak pieczarki cebula oliwa/sos kremowy',
+            '1 x zupa dnia + danie dnia',
+            '1 x zupa + makaron łosoś, kapary, sos kremowy na ostro)',
+            '1 x zupa, makaron orzechy włoskie, sos pesto',
+            '1 x zupa + makaron z łososiem, kapary, (sos kremowy łagodny)',
+            '1 x zupa + pizza fungi',
+            '1 x zupa + sałatka wiosenna z sosem czosnkowym'
         ];
         expect(manager.groupOrders(order)).toContainAll(expectedOrder);
     });
@@ -223,15 +222,14 @@ describe("Order Manager", function () {
             'zupa + makaron (kurczak, pieczarki)'
         ];
         var expectedOrder = [
-            '3 x zupa pizza pepperoni',
-            '2 x danie dnia zupa',
-            '2 x zupa danie dnia',
-            '2 x zupa makaron kurczak pieczarki cebula sos kremowy',
-            '2 x zupa makaron orzechy wloskie pesto',
-            '1 x danie dnia',
-            '1 x zupa makaron kurczak pieczarki',
-            '1 x zupa makaron kurczak szpinak sos kremowy',
-            '1 x zupa makaron z kurczakiem i szpinakiem'
+            '4 x danie-dnia + zupa',
+            '3 x zupa + pizza pepperoni',
+            '2 x zupa, makaron kurczak, pieczarki, cebula, sos kremowy',
+            '2 x zupa, makaron orzechy włoskie, pesto',
+            '1 x danie-dnia',
+            '1 x zupa + makaron (kurczak, pieczarki)',
+            '1 x zupa, makaron kurczak, szpinak, sos kremowy',
+            '1 x zupa + makaron z kurczakiem i szpinakiem'
         ];
         expect(manager.groupOrders(order)).toContainAll(expectedOrder);
     });
@@ -251,9 +249,9 @@ describe("Order Manager", function () {
             'zielone curry z tofu (dopłacę różnicę do benefita)'
         ];
         var expectedOrder = [
-            '8 x wieprzowina slodko pikantna serwowana z ryzem i surowka',
-            '2 x 2 wieprzowina slodko pikantna serwowana z ryzem i surowka',
-            '1 x zielone curry z tofu doplace roznicę do benefita'
+            '8 x wieprzowina słodko-pikantna serwowana z ryżem i surówką',
+            '2 x 2. wieprzowina słodko-pikantna serwowana z ryżem i surówką',
+            '1 x zielone curry z tofu (dopłacę różnicę do benefita)'
         ];
         expect(manager.groupOrders(order)).toContainAll(expectedOrder);
     });
@@ -272,13 +270,13 @@ describe("Order Manager", function () {
             'danie dnia'
         ];
         var expectedOrder = [
-            '3 x zupa makaron kurczak szpinak oliwa',
+            '3 x zupa + makaron (kurczak, szpinak, oliwa)',
             '2 x danie dnia',
-            '1 x zupa dnia salatka wiosenna',
-            '1 x zupa makaron losos kapary sos kremowy na ostro',
-            '1 x zupa makaron orzechy wloskie sos pesto',
-            '1 x zupa pizza funghi',
-            '1 x zupa pizza fungi'
+            '1 x zupa dnia - sałatka wiosenna',
+            '1 x zupa + makaron łosoś, kapary, sos kremowy na ostro',
+            '1 x zupa + makaron orzechy włoskie, sos pesto',
+            '1 x zupa + pizza funghi',
+            '1 x zupa + pizza fungi'
         ];
         expect(manager.groupOrders(order)).toContainAll(expectedOrder);
     });
@@ -301,12 +299,11 @@ describe("Order Manager", function () {
             'pizza pepperoni + zupa'
         ];
         var expectedOrder = [
-            '5 x pizza pepperoni zupa',
+            '5 x pizza pepperoni + zupa',
             '4 x danie dnia',
-            '2 x zupa danie dnia',
-            '1 x danie dnia zupa',
-            '1 x pizza pepperoni zupa zestaw',
-            '1 x salatka wiosenna'
+            '3 x zupa + danie dnia',
+            '1 x pizza pepperoni + zupa (zestaw)',
+            '1 x sałatka wiosenna'
         ];
         expect(manager.groupOrders(order)).toContainAll(expectedOrder);
     });
@@ -326,9 +323,9 @@ describe("Order Manager", function () {
             'Makaron z łososiem, szpinakiem, chilli, posypany rukolą i favitą'
         ];
         var expectedOrder = [
-            '6 x makaron z lososiem szpinakiem chilli posypany rukola i favitą',
+            '6 x makaron z łososiem, szpinakiem, chilli, posypany rukolą i favitą',
             '4 x lasagne',
-            '1 x zupa salatka wiosenna z sosem czosnkowym'
+            '1 x zupa + sałatka wiosenna z sosem czosnkowym'
         ];
         expect(manager.groupOrders(order)).toContainAll(expectedOrder);
     });
@@ -348,12 +345,79 @@ describe("Order Manager", function () {
         ];
         var expectedOrder = [
             '3 x pizza bbq',
-            '2 x danie dnia pizza bolonia',
-            '1 x danie danie pizza toskania',
-            '1 x danie dnia pizza bolonia salame picante bekon cebula',
-            '1 x danie dnia pizza toskania',
-            '1 x salatka wiosenna',
-            '1 x zupa makaron pesto orzechy wloskie'
+            '2 x danie dnia: pizza bolonia',
+            '1 x danie danie - pizza toskania',
+            '1 x danie-dnia pizza bolonia- salame picante, bekon, cebula)',
+            '1 x danie dnia - pizza toskania',
+            '1 x sałatka wiosenna',
+            '1 x zupa + makaron pesto orzechy włoskie'
+        ];
+        expect(manager.groupOrders(order)).toContainAll(expectedOrder);
+    });
+
+    it("should group orders 14", function () {
+        var order = [
+            'danie dnia + zupa',
+            'zupa + sałatka wiosenna',
+            'danie dnia',
+            'danie dnia',
+            'zupa + danie-dnia',
+            'danie dnia',
+            'danie dnia',
+            'zupa + makaron z łososiem',
+            'zupa + makaron z łososiem',
+            'zupa + pizza pepperoni',
+            'pizza pepperoni + zupa',
+            'zupa + pizza pepperoni',
+            'zupa + pizza pepperoni',
+            'danie dnia + zupa dnia',
+            'danie dnia'
+        ];
+        var expectedOrder = [
+            '5 x danie dnia',
+            '4 x zupa + pizza pepperoni',
+            '2 x danie dnia + zupa',
+            '2 x zupa + makaron z łososiem',
+            '1 x zupa + sałatka wiosenna',
+            '1 x danie dnia + zupa dnia'
+        ];
+        expect(manager.groupOrders(order)).toContainAll(expectedOrder);
+    });
+
+    it("should group orders 15", function () {
+        var order = [
+            'zupa + sałatka wiosenna',
+            'pizza pepperoni',
+            'pizza pepperoni',
+            'zupa + makaron pesto orzechy włoskie',
+            'danie dnia',
+            'zupa + makaron pesto orzechy włoskie',
+            'makaron ze szpinakiem, suszone pomidory',
+            'zupa + makaron: (łosoś, kapary, sos kremowy łagodny)',
+            'zupa, pizza-fungi, benefit',
+            'zupa, makaron orzechy włoskie, sos pesto',
+            'pizza pepperoni',
+            'zupa + makaron łosoś kapary sos kremowy ZAPIEKANY',
+            'zupa + sałatka wiosenna',
+            'zupa + sałatka wiosenna',
+            'zupa + makaron: (łosoś, kapary, sos kremowy łagodny)',
+            'zupa + makaron pesto orzechy włoskie',
+            'pizza zielona pitruszka',
+            'makaron ze szpinakiem, suszone pomidory',
+            'losos, kapary, sos kremowy (na ostro)'
+        ];
+        var expectedOrder = [
+            '3 x zupa + sałatka wiosenna',
+            '3 x pizza pepperoni',
+            '3 x zupa + makaron pesto orzechy włoskie',
+            '2 x makaron ze szpinakiem, suszone pomidory',
+            '2 x zupa + makaron: (łosoś, kapary, sos kremowy łagodny)',
+            '1 x danie dnia',
+            '1 x zupa, pizza-fungi, benefit',
+            '1 x zupa, makaron orzechy włoskie, sos pesto',
+            '1 x zupa + makaron łosoś kapary sos kremowy zapiekany',
+            '1 x pizza zielona pitruszka',
+            '1 x losos, kapary, sos kremowy (na ostro)'
         ];
         expect(manager.groupOrders(order)).toContainAll(expectedOrder);
     });
