@@ -1,7 +1,6 @@
 var _ = require('underscore');
 var config = require ('../bin/config');
 
-
 function getPeople(){
     var newPeople = config.settings.people;
     var names = [];
@@ -14,7 +13,7 @@ function getPeople(){
 function getBenefitNo(name){
     var newPeople = config.settings.people;
     var user = _.findWhere(newPeople,{name: name});
-    if(user.benefit){
+    if(user && user.benefit){
         return user.benefit;
     }
     return null;
@@ -23,7 +22,7 @@ function getBenefitNo(name){
 function getBenefitNoLength(restaurant){
     var places = config.settings.places;
     var restaurant =_.findWhere(places, {name: restaurant});
-    if(restaurant.benefitNumberLength){
+    if(restaurant && restaurant.benefitNumberLength){
         return restaurant.benefitNumberLength;
     }
     return null;
