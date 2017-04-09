@@ -125,7 +125,7 @@ function prepareGroupedOrderRecipe(restaurant) {
             }).join("\n");
     }
 
-    return '```' + result + '```';
+    return result;
 }
 
 function getOrder(orderLine) {

@@ -1,5 +1,6 @@
 var recipeCreator = require('./recipeCreator');
 var pdfCreator = require('./pdfCreator');
+var txtCreator = require('./txtCreator');
 var restUtil = require('../restUtil');
 var config = require('./config');
 
@@ -10,6 +11,11 @@ function sendRecipe(winner, restaurant, contact, email) {
     pdfCreator.generatePdf(restaurant, function (fileName) {
         restUtil.postFile(fileName + '.pdf', 'Lista Benefit: ' + fileName)
     });
+    if (config.settings.groupOrders) {
+        txtCreator.createFile(restaurant, function (filename) {
+            restUtil.postFile(filename + '.txt', 'Zbiorcze zestawienie zamówień: ' + filename);
+        });
+    }
 }
 
 function sendUnableToPrepareRecipe(restaurant, minOrdersCount) {
