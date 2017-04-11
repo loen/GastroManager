@@ -34,16 +34,16 @@ function postRawMessage(channel, message, asUser) {
     });
 }
 
-function postPdf(fileName){
+function postFile(fileName, title){
     console.log('fileName:' + fileName);
-    var filePath = joinPath(__dirname + '/output/' + fileName + '.pdf');
+    var filePath = joinPath(__dirname + '/output/' + fileName);
     console.log(filePath);
     request.post({
         url: 'https://slack.com/api/files.upload',
         formData: {
             token: config.settings.token,
-            title: "Lista Benefit: " + fileName,
-            filename: fileName + ".pdf",
+            title: title,
+            filename: fileName,
             filetype: "auto",
             channels: config.settings.channel,
             file: fs.createReadStream(filePath)
@@ -57,4 +57,4 @@ function postPdf(fileName){
 exports.getUser = getUser;
 exports.postMessage = postBlockMessage;
 exports.postRawMessage = postRawMessage;
-exports.postPdf = postPdf;
+exports.postFile = postFile;

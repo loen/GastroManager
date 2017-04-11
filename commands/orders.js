@@ -19,22 +19,21 @@ module.exports = function order(param){
         }
     });
 
-}
+};
 
 function listCurrentOrders(param){
     if(param.args.length === 0){
         var	channel	= param.channel;
-        listOrdersforAllRestaurants(channel);
-    }else {
+        listOrdersForAllRestaurants(channel);
+    } else {
         util.postMessage(param.channel, 'Scusi zły format spróbuj ' + param.commandConfig.help);
     }
 }
 
-function listOrdersforAllRestaurants(channel) {
-
-    _.each(places, function(place) {
-        var msg = recipeCreator.prepareOrdersStatus(place.name);
-        restUtil.postMessage(channel, msg, true);
-    });
-
+function listOrdersForAllRestaurants(channel) {
+    var msg = 'Ciao tutti!\n';
+    msg = msg + _.map(places, function(place) {
+        return recipeCreator.prepareOrdersStatus(place.name);
+    }).join('');
+    restUtil.postRawMessage(channel, msg, true);
 }
