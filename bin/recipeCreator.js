@@ -91,7 +91,9 @@ function prepareGroupedOrderRecipe(restaurant) {
     var orders = prepareOrderLines(users, restaurant);
     var groupedBenefitOrders = orderManager.groupOrders(_.map(orders.benefitOrderLines, getOrder));
     var groupedNoBenefitOrders = orderManager.groupOrders(_.map(orders.noBenefitOrderLines, getOrder));
-    var result = '';
+    var result =      '#####################################\n';
+    result = result + '###   Zgrupowany zestaw zamówień  ###\n';
+    result = result + '#####################################\n\n';
 
     if (_.size(groupedBenefitOrders) > 0) {
         result = result + '*** Zamówienie na kartę Benefit ***\n' + groupedBenefitOrders.join('\n') + '\n';
